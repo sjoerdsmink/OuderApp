@@ -3,7 +3,8 @@ import * as path from "jsr:@std/path";
 import {PhotoUrl, sleep} from "./utils.ts";
 
 export const fetchAllMessages = async (orgSlug: string, authToken: string, basePath: string, startIndex = 0, maxIndex= Infinity) => {
-  await Deno.mkdir(path.join(basePath, "messages", "overview"), {recursive: true});
+  await Deno.mkdir(path.join(basePath, "data", "messagesOverview"), {recursive: true});
+  await Deno.mkdir(path.join(basePath, "data", "messages"), {recursive: true});
 
   let currentIndex = startIndex;
   let messageLength = -1;
@@ -32,7 +33,7 @@ const fetchMessageOverview = async (orgSlug: string, authToken: string, basePath
   try {
     const url = `https://${orgSlug}.ouderportaal.nl/restservices-parent/logbook/overview?index=${index}`;
     const response = await axios.get(url, {headers: { Authorization: authToken }});
-    await Deno.writeTextFile(path.join(basePath, "messages", "overview", `${index}.json`), JSON.stringify(response.data));
+    await Deno.writeTextFile(path.join(basePath, "data", "messagesOverview", `${index}.json`), JSON.stringify(response.data));
     const messageLength = response.data.length;
     console.log(`Found ${messageLength} messages for index ${index}`);
     return { messageLength, json: response.data };
@@ -45,9 +46,9 @@ const fetchMessageOverview = async (orgSlug: string, authToken: string, basePath
 
 export const getMessageIdsFromMessages = async (basePath: string): Promise<string[]> => {
   const ids: string[] = [];
-  for await (const dirEntry of Deno.readDir(path.join(basePath, "messages", "overview"))) {
+  for await (const dirEntry of Deno.readDir(path.join(basePath, "data", "messagesOverview"))) {
     if (dirEntry.isFile && dirEntry.name.endsWith('.json')) {
-      const data = await Deno.readFile(path.join(basePath, "messages", "overview", dirEntry.name))
+      const data = await Deno.readFile(path.join(basePath, "data", "messagesOverview", dirEntry.name))
       const text = new TextDecoder().decode(data);
       for (const elm of JSON.parse(text)) {
         ids.push(elm.logMessageMessageId);
@@ -61,7 +62,7 @@ const fetchMessage = async (orgSlug: string, authToken: string, basePath: string
   try {
     const url = `https://${orgSlug}.ouderportaal.nl/restservices-parent/logbook/details/${messageId}/summary/false`;
     const response = await axios.get(url, {headers: { Authorization: authToken }});
-    await Deno.writeTextFile(path.join(basePath, "messages", `${messageId}.json`), JSON.stringify(response.data));
+    await Deno.writeTextFile(path.join(basePath, "data", "messages", `${messageId}.json`), JSON.stringify(response.data));
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     console.error(`Error fetching message data: ${errorMessage}`);
@@ -70,9 +71,9 @@ const fetchMessage = async (orgSlug: string, authToken: string, basePath: string
 
 export const getPhotoUrlsFromMessages = async (basePath: string): Promise<PhotoUrl[]> => {
   const urls: PhotoUrl[] = [];
-  for await (const dirEntry of Deno.readDir(path.join(basePath, "messages"))) {
+  for await (const dirEntry of Deno.readDir(path.join(basePath, "data", "messages"))) {
     if (dirEntry.isFile && dirEntry.name.endsWith('.json')) {
-      const data = await Deno.readFile(path.join(basePath, "messages", dirEntry.name))
+      const data = await Deno.readFile(path.join(basePath, "data", "messages", dirEntry.name))
       const text = new TextDecoder().decode(data);
       urls.push(...getPhotoUrls(text, dirEntry.name));
     }

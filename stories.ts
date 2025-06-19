@@ -3,7 +3,7 @@ import * as path from "jsr:@std/path";
 import {PhotoUrl, sleep} from "./utils.ts";
 
 export const fetchAllStories = async (orgSlug: string, authToken: string, basePath: string, startIndex = 0, maxIndex= Infinity) => {
-  await Deno.mkdir(path.join(basePath, "stories"), {recursive: true});
+  await Deno.mkdir(path.join(basePath, "data", "stories"), {recursive: true});
 
   let currentIndex = startIndex;
   let storyLength = -1;
@@ -23,7 +23,7 @@ const fetchStory = async (orgSlug: string, authToken: string, basePath: string, 
   try {
     const url = `https://${orgSlug}.ouderportaal.nl/restservices-parent/timeline/cards/v2/${index}`;
     const response = await axios.get(url, {headers: { Authorization: authToken }});
-    await Deno.writeTextFile(path.join(basePath, "stories", `${index}.json`), JSON.stringify(response.data));
+    await Deno.writeTextFile(path.join(basePath, "data", "stories", `${index}.json`), JSON.stringify(response.data));
     const storyLength = response.data.length;
     console.log(`Found ${storyLength} stories for index ${index}`);
     return { storyLength, json: response.data };
@@ -36,9 +36,9 @@ const fetchStory = async (orgSlug: string, authToken: string, basePath: string, 
 
 export const getPhotoUrlsFromStories = async (basePath: string): Promise<PhotoUrl[]> => {
   const urls: PhotoUrl[] = [];
-  for await (const dirEntry of Deno.readDir(path.join(basePath, "stories"))) {
+  for await (const dirEntry of Deno.readDir(path.join(basePath, "data", "stories"))) {
     if (dirEntry.isFile && dirEntry.name.endsWith('.json')) {
-      const data = await Deno.readFile(path.join(basePath, "stories", dirEntry.name))
+      const data = await Deno.readFile(path.join(basePath, "data", "stories", dirEntry.name))
       const text = new TextDecoder().decode(data);
       urls.push(...getPhotoUrls(text, dirEntry.name));
     }

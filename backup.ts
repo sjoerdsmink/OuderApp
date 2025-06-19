@@ -68,8 +68,8 @@ const downloadPhotos = async (photoUrls: PhotoUrl[], basePath: string) => {
     let fileName = photoUrl.url.substring(photoUrl.url.lastIndexOf('/') + 1)
     fileName = fileName.substring(0, fileName.indexOf('?'));
     fileName = `${dateFormat(photoUrl.date)}_${fileName}`;
-    await Deno.mkdir(path.join(basePath, "downloads", photoUrl.child), {recursive: true});
-    await Deno.writeFile(path.join(basePath, "downloads", photoUrl.child, fileName), new Uint8Array(response.data));
+    await Deno.mkdir(path.join(basePath, "photos", photoUrl.child), {recursive: true});
+    await Deno.writeFile(path.join(basePath, "photos", photoUrl.child, fileName), new Uint8Array(response.data));
     console.log(`Downloaded ${i+1}/${photosLength} ${fileName}`);
   }
   console.log("All photos downloaded successfully")

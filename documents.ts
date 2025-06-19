@@ -3,7 +3,7 @@ import * as path from "jsr:@std/path";
 import {dateFormat, PhotoUrl, sleep} from "./utils.ts";
 
 export const fetchAllDocuments = async (orgSlug: string, authToken: string, basePath: string, startYear = (new Date()).getFullYear(), minYear= 2000) => {
-  await Deno.mkdir(path.join(basePath, "documents", "overview"), {recursive: true});
+  await Deno.mkdir(path.join(basePath, "data", "documents"), {recursive: true});
 
   let currentYear = startYear;
   let messageLength = -1;
@@ -25,7 +25,7 @@ const fetchDocumentOverview = async (orgSlug: string, authToken: string, basePat
   try {
     const url = `https://${orgSlug}.ouderportaal.nl/restservices-parent/administration/${type}/overview/${year}0101/${year}1231`;
     const response = await axios.get(url, {headers: { Authorization: authToken }});
-    await Deno.writeTextFile(path.join(basePath, "documents", "overview", `${type}-${year}.json`), JSON.stringify(response.data));
+    await Deno.writeTextFile(path.join(basePath, "data", "documents", `${type}-${year}.json`), JSON.stringify(response.data));
     const messageLength = response.data.payload.length;
     console.log(`Found ${messageLength} ${type}s for year ${year}`);
     return { messageLength, json: response.data };
@@ -46,9 +46,9 @@ interface Document {
 
 export const getDocumentFromMessages = async (basePath: string): Promise<Document[]> => {
   const documents: Document[] = [];
-  for await (const dirEntry of Deno.readDir(path.join(basePath, "documents", "overview"))) {
+  for await (const dirEntry of Deno.readDir(path.join(basePath, "data", "documents"))) {
     if (dirEntry.isFile && dirEntry.name.endsWith('.json')) {
-      const data = await Deno.readFile(path.join(basePath, "documents", "overview", dirEntry.name))
+      const data = await Deno.readFile(path.join(basePath, "data", "documents", dirEntry.name))
       const type = dirEntry.name.split('-')[0]
       const text = new TextDecoder().decode(data);
       documents.push(...getDocuments(text, dirEntry.name, type))
