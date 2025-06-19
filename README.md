@@ -13,6 +13,8 @@ You can find all these files on the [latest release](https://github.com/sjoerdsm
 
 After opening the file, it's self-explanatory. It will ask you for your daycare centre url, username and password, and where to store the backup. It will then start downloading everything; in the meantime you can see the progress.
 
+If you see any errors or have suggestions, please [open an issue](https://github.com/sjoerdsmink/OuderApp/issues).
+
 ## For developers
 To create a new release: run `deno task compile`. To create all releases:
 ```bash
