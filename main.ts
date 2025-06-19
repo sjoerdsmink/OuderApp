@@ -33,6 +33,6 @@ if (import.meta.main) {
     Deno.exit(0);
   }
 
-  // await startBackup(orgSlug, username, password, basePath);
+  await startBackup(orgSlug, username, password, basePath);
   alert("Backup completed! Press enter to close this window.");
 }
