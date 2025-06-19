@@ -1,6 +1,7 @@
 {
   "version": "5",
   "specifiers": {
+    "jsr:@std/cli@^1.0.20": "1.0.20",
     "jsr:@std/path@*": "1.1.0",
     "jsr:@std/path@^1.1.0": "1.1.0",
     "npm:@date-fns/tz@^1.2.0": "1.2.0",
@@ -8,6 +9,9 @@
     "npm:date-fns@^4.1.0": "4.1.0"
   },
   "jsr": {
+    "@std/cli@1.0.20": {
+      "integrity": "a8c384a2c98cec6ec6a2055c273a916e2772485eb784af0db004c5ab8ba52333"
+    },
     "@std/path@1.1.0": {
       "integrity": "ddc94f8e3c275627281cbc23341df6b8bcc874d70374f75fec2533521e3d6886"
     }
@@ -149,6 +153,7 @@
   },
   "workspace": {
     "dependencies": [
+      "jsr:@std/cli@^1.0.20",
       "jsr:@std/path@^1.1.0",
       "npm:@date-fns/tz@^1.2.0",
       "npm:axios@^1.10.0",

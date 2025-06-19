@@ -86,6 +86,7 @@ const getDocuments = (text: string, fileName: string, type: string): Document[] 
 }
 
 export const downloadAllDocuments = async (orgSlug: string, authToken: string, basePath: string) => {
+  await Deno.mkdir(path.join(basePath, "documents"), {recursive: true});
   const documents = await getDocumentFromMessages(basePath);
   const documentsLength = documents.length;
   console.log(`Start downloading ${documentsLength} documents`);
