@@ -3,8 +3,7 @@ import * as path from "jsr:@std/path";
 import {PhotoUrl, sleep} from "./utils.ts";
 
 export const fetchAllMessages = async (orgSlug: string, authToken: string, basePath: string, startIndex = 0, maxIndex= Infinity) => {
-  await Deno.mkdir(path.join(basePath, "messagesOverview"), {recursive: true});
-  await Deno.mkdir(path.join(basePath, "messages"), {recursive: true});
+  await Deno.mkdir(path.join(basePath, "messages", "overview"), {recursive: true});
 
   let currentIndex = startIndex;
   let messageLength = -1;
@@ -21,7 +20,7 @@ export const fetchAllMessages = async (orgSlug: string, authToken: string, baseP
   const messageIds = await getMessageIdsFromMessages(basePath);
 
   const messagesLength = messageIds.length;
-  for (let i = 0; i < messagesLength-1; i++) {
+  for (let i = 0; i < messagesLength; i++) {
     await sleep(0.2)
     console.log(`Fetching message ${i+1}/${messagesLength} for id ${messageIds[i]}`);
     await fetchMessage(orgSlug, authToken, basePath, messageIds[i]);
@@ -33,7 +32,7 @@ const fetchMessageOverview = async (orgSlug: string, authToken: string, basePath
   try {
     const url = `https://${orgSlug}.ouderportaal.nl/restservices-parent/logbook/overview?index=${index}`;
     const response = await axios.get(url, {headers: { Authorization: authToken }});
-    await Deno.writeTextFile(path.join(basePath, "messagesOverview", `${index}.json`), JSON.stringify(response.data));
+    await Deno.writeTextFile(path.join(basePath, "messages", "overview", `${index}.json`), JSON.stringify(response.data));
     const messageLength = response.data.length;
     console.log(`Found ${messageLength} messages for index ${index}`);
     return { messageLength, json: response.data };
@@ -46,9 +45,9 @@ const fetchMessageOverview = async (orgSlug: string, authToken: string, basePath
 
 export const getMessageIdsFromMessages = async (basePath: string): Promise<string[]> => {
   const ids: string[] = [];
-  for await (const dirEntry of Deno.readDir(path.join(basePath, "messagesOverview"))) {
+  for await (const dirEntry of Deno.readDir(path.join(basePath, "messages", "overview"))) {
     if (dirEntry.isFile && dirEntry.name.endsWith('.json')) {
-      const data = await Deno.readFile(path.join(basePath, "messagesOverview", dirEntry.name))
+      const data = await Deno.readFile(path.join(basePath, "messages", "overview", dirEntry.name))
       const text = new TextDecoder().decode(data);
       for (const elm of JSON.parse(text)) {
         ids.push(elm.logMessageMessageId);
@@ -83,7 +82,7 @@ export const getPhotoUrlsFromMessages = async (basePath: string): Promise<PhotoU
 
 const getPhotoUrls = (text: string, fileName: string): PhotoUrl[] => {
   const json = JSON.parse(text);
-  if (json.messages?.length === 0) {
+  if (!json.messages) {
     console.error(`Error: ${fileName} No messages found in message: ${JSON.stringify(json.messages)}`);
     return []
   }

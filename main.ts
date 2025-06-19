@@ -1,4 +1,6 @@
+import * as path from "jsr:@std/path";
 import {login, startBackup} from "./backup.ts";
+import {dateFormat} from "./utils.ts";
 
 // Learn more at https://docs.deno.com/runtime/manual/examples/module_metadata#concepts
 if (import.meta.main) {
@@ -26,10 +28,10 @@ if (import.meta.main) {
     Deno.exit(0);
   }
 
-  const basePath = prompt("Where do you want to store the files:", Deno.cwd()) ?? Deno.cwd()
+  const suggestedPath = path.join(Deno.cwd(), `ouderapp-${dateFormat(undefined)}`);
+  const basePath = prompt("Where do you want to store the files:", suggestedPath) ?? suggestedPath
 
-  const shouldProceed = confirm("Do you want to proceed?");
-  console.log("Should proceed?", shouldProceed);
+  const shouldProceed = confirm("Do you want to proceed? Downloading can take half an hour or more.");
   if (!shouldProceed) {
     console.log("Exiting...");
     Deno.exit(0);

@@ -61,7 +61,7 @@ const getPhotoUrls = (text: string, fileName: string): PhotoUrl[] => {
         url: child.avatars?.fullSizeUrl,
       })
     }
-    const childName = elm.children?.map((child: any) => child.firstName).join(', ');
+    const childName = elm.children.map((child: any) => child.firstName).join(', ');
 
     for (const photo of elm.photos ?? []) {
       urls.push({
