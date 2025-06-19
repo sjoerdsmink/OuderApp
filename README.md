@@ -3,11 +3,11 @@ The [OuderApp](https://ouderapp.kidskonnect.nl/) is an app used by daycare centr
 
 ## How to use it
 Download and run one of the [releases](https://github.com/sjoerdsmink/OuderApp/releases).
-- [Windows](https://github.com/sjoerdsmink/OuderApp/releases/download/v1.1.0/Windows.EXE.exe) or use the [ZIP](https://github.com/sjoerdsmink/OuderApp/releases/download/v1.1.0/Windows.ZIP.zip) if the browser or virus scanner gives a warning.
-- [Mac ARM](https://github.com/sjoerdsmink/OuderApp/releases/download/v1.1.0/macOS.ARM64)
-- [Mac x86](https://github.com/sjoerdsmink/OuderApp/releases/download/v1.1.0/macOS.x86_64)
-- [Linux ARM](https://github.com/sjoerdsmink/OuderApp/releases/download/v1.1.0/Linux.ARM64)
-- [Linux x86](https://github.com/sjoerdsmink/OuderApp/releases/download/v1.1.0/Linux.x86_64)
+- [Windows](https://github.com/sjoerdsmink/OuderApp/releases/download/v1.1.2/Windows.EXE.exe) or use the [ZIP](https://github.com/sjoerdsmink/OuderApp/releases/download/v1.1.2/Windows.ZIP.zip) if the browser or virus scanner gives a warning.
+- [Mac ARM](https://github.com/sjoerdsmink/OuderApp/releases/download/v1.1.2/macOS.ARM64)
+- [Mac x86](https://github.com/sjoerdsmink/OuderApp/releases/download/v1.1.2/macOS.x86_64)
+- [Linux ARM](https://github.com/sjoerdsmink/OuderApp/releases/download/v1.1.2/Linux.ARM64)
+- [Linux x86](https://github.com/sjoerdsmink/OuderApp/releases/download/v1.1.2/Linux.x86_64)
 
 ## For developers
 To create a new release: run `deno task compile`. To create all releases:
