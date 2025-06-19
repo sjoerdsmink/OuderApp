@@ -3,7 +3,7 @@ The [OuderApp](https://ouderapp.kidskonnect.nl/) is an app used by daycare centr
 
 ## How to use it
 Download and run one of these files (depending on your operating system):
-- [Windows](https://github.com/sjoerdsmink/OuderApp/releases/latest/download/Windows.EXE.exe) or use the [ZIP](https://github.com/sjoerdsmink/OuderApp/releases/latest/download/Windows.ZIP.zip) if the browser or virus scanner prevents downloading it.
+- [Windows](https://github.com/sjoerdsmink/OuderApp/releases/latest/download/Windows.EXE.exe) (or use the [ZIP](https://github.com/sjoerdsmink/OuderApp/releases/latest/download/Windows.ZIP.zip) if the browser or virus scanner prevents downloading it)
 - [Mac ARM](https://github.com/sjoerdsmink/OuderApp/releases/latest/download/macOS.ARM64)
 - [Mac x86](https://github.com/sjoerdsmink/OuderApp/releases/latest/download/macOS.x86_64)
 - [Linux ARM](https://github.com/sjoerdsmink/OuderApp/releases/latest/download/Linux.ARM64)
@@ -23,7 +23,7 @@ for target in x86_64-pc-windows-msvc x86_64-apple-darwin aarch64-apple-darwin x8
   deno compile --frozen --target $target --allow-all --output build/$target main.ts
 done
 ```
-Optionally [code sign](https://docs.deno.com/runtime/reference/cli/compile/#code-signing) the Windows and Mac files to help virus/malware scanners.
+Optionally [code sign](https://docs.deno.com/runtime/reference/cli/compile/#code-signing) the Windows and Mac files to prevent issues with virus/malware scanners.
 
 If you want to run it locally:
 - Install [deno](https://docs.deno.com/runtime/getting_started/installation/)
