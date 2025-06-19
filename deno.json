@@ -1,0 +1,12 @@
+{
+  "tasks": {
+    "dev": "deno run --watch --allow-all main.ts",
+    "compile": "deno compile --allow-all --output build/mac main.ts"
+  },
+  "imports": {
+    "@date-fns/tz": "npm:@date-fns/tz@^1.2.0",
+    "date-fns": "npm:date-fns@^4.1.0",
+    "@std/path": "jsr:@std/path@^1.1.0",
+    "axios": "npm:axios@^1.10.0"
+  }
+}
